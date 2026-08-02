@@ -28,9 +28,11 @@ import java.nio.file.Path;
  * folder, backed up to two locations, encrypted, on a schedule, with the ready-made panes
  * for history and scheduling.
  *
- * <p>Run it with:
+ * <p>Run it from this module's own directory, after {@code mvn install} at the repository
+ * root. Running it from there with {@code -pl} fails: the {@code javafx} plugin prefix is
+ * resolved against the root POM, which does not declare the plugin.
  * <pre>
- *   mvn -pl examples/desktop-javafx -am javafx:run
+ *   cd examples/desktop-javafx &amp;&amp; mvn javafx:run
  * </pre>
  *
  * <p>Everything it writes lives under {@code ./demo-data}, so deleting that folder resets

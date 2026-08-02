@@ -9,8 +9,16 @@
 
 قاعدة SQLite + مجلد مستندات، مع نسخ إلى وجهتين، تشفير، جدولة، والشاشات الجاهزة.
 
+ثبّت المكتبة مرة واحدة من جذر المشروع:
+
 ```bash
-mvn -pl examples/desktop-javafx -am javafx:run
+mvn install -DskipTests
+```
+
+ثم شغّل التطبيق **من داخل مجلد الموديول**:
+
+```bash
+cd examples/desktop-javafx && mvn javafx:run
 ```
 
 كل شيء يُكتب تحت `examples/desktop-javafx/demo-data/` — احذف المجلد لتصفير المثال.
@@ -37,7 +45,7 @@ mvn -pl examples/desktop-javafx -am javafx:run
 قاعدة H2 تنسخ نفسها، مضبوطة **بالكامل** من `application.yml` — لا يوجد كود إعداد Java إطلاقاً.
 
 ```bash
-mvn -pl examples/spring-boot-service -am spring-boot:run
+cd examples/spring-boot-service && mvn spring-boot:run
 ```
 
 ثم:
@@ -83,6 +91,36 @@ curl -X POST "http://localhost:8080/api/backups/records/$REC/restore?confirm=tru
 - منطقة زمنية مثبَّتة على الـ cron، فنقل الخادم لا يزيح الموعد
 - `stale-after: 25h` — الصحة تصبح `DOWN` إذا توقّفت النسخ بصمت، لا عند الفشل فقط
 - مهمة S3 بـ `enabled: false`: مكتوبة بالكامل وجاهزة، ولا تفرض تبعية AWS SDK إطلاقاً
+
+---
+
+---
+
+## لماذا `cd` ولا يعمل `-pl` من الجذر
+
+الشكل التالي **يفشل**، وليس خطأ مطبعياً:
+
+```bash
+mvn -pl examples/desktop-javafx -am javafx:run
+```
+
+```
+[ERROR] No plugin found for prefix 'javafx' in the current project
+```
+
+لسببين مستقلّين:
+
+1. **حلّ بادئة الـ plugin يتمّ مقابل المشروع الذي تقف فيه**، أي الـ POM الجذر — وهو لا يعرّف
+   `javafx-maven-plugin`. البادئة `javafx` غير معروفة هناك. ينطبق نفس الكلام على
+   `spring-boot:run`.
+
+2. **`-am` يضيف كل التبعيات إلى الـ reactor** (الأب، النواة، موديول JavaFX، قواعد الملفات)،
+   واستدعاء هدف مباشر يُنفَّذ على *كل* مشروع في الـ reactor. حتى لو حُلّت البادئة، لحاول
+   Maven تشغيل التطبيق من داخل النواة أيضاً.
+
+الدخول إلى مجلد الموديول يحلّ الاثنين: البادئة تُقرأ من POM الموديول الذي يعرّف الـ plugin،
+والـ reactor يصبح مشروعاً واحداً. و`javafx:run` يستدعي `process-classes` تلقائياً، فلا حاجة
+لترجمة يدوية — يكفي أن تكون موديولات المكتبة مثبّتة (`mvn install` مرة واحدة من الجذر).
 
 ---
 

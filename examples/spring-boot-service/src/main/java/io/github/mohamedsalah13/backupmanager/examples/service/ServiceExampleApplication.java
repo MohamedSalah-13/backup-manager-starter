@@ -10,9 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * jobs, schedules, destinations, encryption and retention all come from
  * {@code application.yml}. That is the point of the starter.
  *
- * <p>Run it with:
+ * <p>Run it from this module's own directory, after {@code mvn install} at the repository
+ * root. Running it from there with {@code -pl} fails: the {@code spring-boot} plugin prefix
+ * is resolved against the root POM, which does not declare the plugin.
  * <pre>
- *   mvn -pl examples/spring-boot-service -am spring-boot:run
+ *   cd examples/spring-boot-service &amp;&amp; mvn spring-boot:run
  * </pre>
  */
 @SpringBootApplication

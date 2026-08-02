@@ -62,16 +62,19 @@ mvn clean install
 
 مشروعان جاهزان بدون أي إعداد خارجي — تفاصيلهما في [examples/README.md](examples/README.md).
 
+بعد `mvn install` أعلاه، شغّل أياً منهما **من داخل مجلده** (الأمر يفشل من الجذر مع `-pl`،
+والسبب مشروح في README الأمثلة):
+
 تطبيق سطح مكتب JavaFX (SQLite + شاشات جاهزة + استعادة):
 
 ```bash
-mvn -pl examples/desktop-javafx -am javafx:run
+cd examples/desktop-javafx && mvn javafx:run
 ```
 
 خدمة Spring Boot مضبوطة بالكامل من `application.yml`:
 
 ```bash
-mvn -pl examples/spring-boot-service -am spring-boot:run
+cd examples/spring-boot-service && mvn spring-boot:run
 ```
 
 ---
