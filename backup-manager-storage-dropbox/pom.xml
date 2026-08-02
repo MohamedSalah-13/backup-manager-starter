@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.backupmanager</groupId>
+        <artifactId>backup-manager-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>backup-manager-storage-dropbox</artifactId>
+    <name>Backup Manager :: Dropbox Storage</name>
+    <description>Storage provider for Dropbox, with chunked upload sessions for large artifacts</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.backupmanager</groupId>
+            <artifactId>backup-manager-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dropbox.core</groupId>
+            <artifactId>dropbox-core-sdk</artifactId>
+            <version>${dropbox.version}</version>
+        </dependency>
+    </dependencies>
+</project>

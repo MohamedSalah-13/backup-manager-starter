@@ -1,0 +1,18 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+*.iml
+.idea/
+.vscode/
+.settings/
+.classpath
+.project
+
+# Backup Manager runtime output — artifacts and catalogs never belong in git
+backup-data/
+backups/
+*.db
+*.mv.db
+*.trace.db
+catalog.json
+catalog.json.bak

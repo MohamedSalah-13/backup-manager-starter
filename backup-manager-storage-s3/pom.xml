@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.backupmanager</groupId>
+        <artifactId>backup-manager-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>backup-manager-storage-s3</artifactId>
+    <name>Backup Manager :: S3 Storage</name>
+    <description>Storage provider for Amazon S3 and any S3-compatible endpoint such as MinIO or Backblaze B2</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.backupmanager</groupId>
+            <artifactId>backup-manager-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+        </dependency>
+        <!-- Smaller and dependency-free compared with the Netty or CRT clients. -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>apache-client</artifactId>
+        </dependency>
+    </dependencies>
+</project>

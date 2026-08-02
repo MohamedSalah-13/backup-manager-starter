@@ -1,0 +1,2 @@
+com.backupmanager.spring.BackupAutoConfiguration
+com.backupmanager.spring.actuate.BackupActuatorAutoConfiguration
