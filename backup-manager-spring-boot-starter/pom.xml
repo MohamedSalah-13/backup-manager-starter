@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.backupmanager</groupId>
+        <groupId>io.github.mohamedsalah13</groupId>
         <artifactId>backup-manager-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
@@ -16,31 +16,31 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.backupmanager</groupId>
+            <groupId>io.github.mohamedsalah13</groupId>
             <artifactId>backup-manager-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.backupmanager</groupId>
+            <groupId>io.github.mohamedsalah13</groupId>
             <artifactId>backup-manager-db-mysql</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.backupmanager</groupId>
+            <groupId>io.github.mohamedsalah13</groupId>
             <artifactId>backup-manager-db-file</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.backupmanager</groupId>
+            <groupId>io.github.mohamedsalah13</groupId>
             <artifactId>backup-manager-storage-s3</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.backupmanager</groupId>
+            <groupId>io.github.mohamedsalah13</groupId>
             <artifactId>backup-manager-storage-gdrive</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.backupmanager</groupId>
+            <groupId>io.github.mohamedsalah13</groupId>
             <artifactId>backup-manager-storage-dropbox</artifactId>
             <optional>true</optional>
         </dependency>

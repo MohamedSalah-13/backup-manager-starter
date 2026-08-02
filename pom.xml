@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.backupmanager</groupId>
+    <groupId>io.github.mohamedsalah13</groupId>
     <artifactId>backup-manager-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -56,37 +56,37 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.backupmanager</groupId>
+                <groupId>io.github.mohamedsalah13</groupId>
                 <artifactId>backup-manager-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.backupmanager</groupId>
+                <groupId>io.github.mohamedsalah13</groupId>
                 <artifactId>backup-manager-db-mysql</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.backupmanager</groupId>
+                <groupId>io.github.mohamedsalah13</groupId>
                 <artifactId>backup-manager-db-file</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.backupmanager</groupId>
+                <groupId>io.github.mohamedsalah13</groupId>
                 <artifactId>backup-manager-storage-s3</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.backupmanager</groupId>
+                <groupId>io.github.mohamedsalah13</groupId>
                 <artifactId>backup-manager-storage-gdrive</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.backupmanager</groupId>
+                <groupId>io.github.mohamedsalah13</groupId>
                 <artifactId>backup-manager-storage-dropbox</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.backupmanager</groupId>
+                <groupId>io.github.mohamedsalah13</groupId>
                 <artifactId>backup-manager-javafx</artifactId>
                 <version>${project.version}</version>
             </dependency>

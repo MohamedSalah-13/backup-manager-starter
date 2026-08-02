@@ -130,7 +130,12 @@ There are no JavaFX tests: `javafx-*` is `provided` scope and no toolkit runs in
 
 Spring tests use `ApplicationContextRunner`, not `@SpringBootTest`.
 
-## Before publishing
+## Coordinates
 
-`groupId` is the placeholder `com.backupmanager` in all POMs and must change to the user's own
-namespace before release to any internal repository.
+`groupId` is `io.github.mohamedsalah13`; Java packages mirror it under
+`io.github.mohamedsalah13.backupmanager.*`. Keep the two in step if either ever changes.
+
+Publishing to Maven Central under an `io.github.*` namespace requires proving control of the
+matching GitHub account. The account is `MohamedSalah-13`, and the groupId drops the hyphen
+because Java package names cannot contain one — expect to resolve that with Sonatype during
+namespace verification, or switch to an owned domain instead.

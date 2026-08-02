@@ -1,2 +1,2 @@
-com.backupmanager.spring.BackupAutoConfiguration
-com.backupmanager.spring.actuate.BackupActuatorAutoConfiguration
+io.github.mohamedsalah13.backupmanager.spring.BackupAutoConfiguration
+io.github.mohamedsalah13.backupmanager.spring.actuate.BackupActuatorAutoConfiguration

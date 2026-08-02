@@ -29,7 +29,7 @@
 
 ```xml
 <dependency>
-    <groupId>com.backupmanager</groupId>
+    <groupId>io.github.mohamedsalah13</groupId>
     <artifactId>backup-manager-core</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
@@ -39,12 +39,12 @@
 
 ```xml
 <dependency>
-    <groupId>com.backupmanager</groupId>
+    <groupId>io.github.mohamedsalah13</groupId>
     <artifactId>backup-manager-db-mysql</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 <dependency>
-    <groupId>com.backupmanager</groupId>
+    <groupId>io.github.mohamedsalah13</groupId>
     <artifactId>backup-manager-javafx</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
@@ -94,7 +94,7 @@ manager.close();
 
 ```xml
 <dependency>
-    <groupId>com.backupmanager</groupId>
+    <groupId>io.github.mohamedsalah13</groupId>
     <artifactId>backup-manager-spring-boot-starter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
@@ -338,7 +338,10 @@ mvn test
 
 ## ملاحظات تشغيلية
 
-**غيّر الـ groupId** من `com.backupmanager` إلى نطاقك قبل النشر على مستودع داخلي.
+**النشر على Maven Central:** النطاق `io.github.mohamedsalah13` يحتاج إثبات ملكية حساب GitHub
+المطابق أثناء توثيق الـ namespace. الـ groupId يسقط الشرطة من `MohamedSalah-13` لأن أسماء الـ
+packages في Java لا تقبلها — راجع ذلك مع Sonatype، أو استخدم نطاقاً تملكه بدلاً منه.
+للاستخدام الداخلي عبر `mvn install` لا شيء من هذا يلزم.
 
 **اختبر الاستعادة، لا النسخ فقط.** نسخة احتياطية لم يقرأها أحد ليست شبكة أمان بل فرضية.
 `manager.testRestore(recordId, progress)` يقرأ الملف ويفك تشفيره كاملاً بدون كتابة أي شيء —
