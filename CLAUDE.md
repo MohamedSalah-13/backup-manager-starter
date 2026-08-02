@@ -118,6 +118,21 @@ copies that succeeded; only `requireAllDestinations(true)` escalates to `FAILED`
 **Secrets never go on a command line.** `ProcessRunner.writeSecureOptionsFile` exists because
 `--password=` is visible to every user via the process list.
 
+## Optional modules must stay optional
+
+`BackupJobFactory` must never name a type from an optional module in its own code. Spring
+introspects every bean class with `getDeclaredMethods()`, the JVM resolves the types a class
+names while doing so, and this happens long before any guard inside a method body can run —
+so one direct reference to `MySqlConfig` stops the entire application context from starting
+for anyone who omits `backup-manager-db-mysql`. Each optional integration therefore lives in
+a nested support class (`BackupJobFactory.MySqlSupport` and friends), loaded on first actual
+use. `OptionalModuleAbsenceTest` enforces this by scanning the outer class file's constant
+pool; classloader-based versions of that test were vacuous and the test comments explain why.
+
+Related: `enabled: false` on a properties job means the job is *not created at all*, so a
+cloud job can sit in the file until its credentials exist without dragging the SDK onto the
+classpath. A job that should exist but never fire on its own is enabled with no schedule.
+
 ## Test conventions
 
 Artifact names use whole-second timestamps (`FileNames.TIMESTAMP`), so tests that create
@@ -126,9 +141,15 @@ several backups for one job sleep ~1100 ms between them to avoid name collisions
 `FileDatabaseBackupTest` drives real SQLite and H2 databases, not mocks. Prefer that over
 mocking when adding a source — the failures worth catching are in the actual engine behaviour.
 
-There are no JavaFX tests: `javafx-*` is `provided` scope and no toolkit runs in CI.
+There are no JavaFX tests in the library module: `javafx-*` is `provided` scope and no
+toolkit runs in CI. The desktop example works around this by keeping its whole backup
+configuration in `DemoBackupSetup`, outside the `Application` class, so a headless test can
+run it — worth copying for any UI code that configures the library.
 
 Spring tests use `ApplicationContextRunner`, not `@SpringBootTest`.
+
+`examples/` is in the reactor on purpose, so the samples cannot drift from the API. Both
+examples run with no external setup; see `examples/README.md`.
 
 ## Coordinates
 

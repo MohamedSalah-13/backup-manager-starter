@@ -58,6 +58,24 @@ mvn clean install
 
 ---
 
+## أمثلة تعمل فوراً
+
+مشروعان جاهزان بدون أي إعداد خارجي — تفاصيلهما في [examples/README.md](examples/README.md).
+
+تطبيق سطح مكتب JavaFX (SQLite + شاشات جاهزة + استعادة):
+
+```bash
+mvn -pl examples/desktop-javafx -am javafx:run
+```
+
+خدمة Spring Boot مضبوطة بالكامل من `application.yml`:
+
+```bash
+mvn -pl examples/spring-boot-service -am spring-boot:run
+```
+
+---
+
 ## الاستخدام في تطبيق Java / JavaFX عادي
 
 ```java

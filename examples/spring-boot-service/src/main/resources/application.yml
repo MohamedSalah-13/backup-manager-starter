@@ -1,0 +1,127 @@
+spring:
+  application:
+    name: backup-example-service
+  datasource:
+    # AUTO_SERVER lets the backup source open its own connection alongside the pool.
+    url: jdbc:h2:file:./data/demo;AUTO_SERVER=TRUE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # 'backup' is contributed by the starter when Actuator is present.
+        include: health,info,backup
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    io.github.mohamedsalah13.backupmanager: INFO
+
+# ---------------------------------------------------------------------------
+# Everything below is the library. No Java configuration is needed for any of it.
+# ---------------------------------------------------------------------------
+backup:
+  storage-root: ./data/backup-state   # catalog + staging area
+  auto-start: true                    # begin scheduling once the context is ready
+  run-on-startup: false               # startup is busy enough already
+  parallelism: 2
+
+  actuator:
+    # Report DOWN if no successful backup has landed in this long, not just when one
+    # fails. A job that silently stopped running is the failure nobody notices.
+    stale-after: 25h
+
+  jobs:
+
+    # --- the application's own database -----------------------------------
+    invoices-db:
+      description: "H2 database holding the invoices table"
+      source:
+        type: h2
+        jdbc-url: jdbc:h2:file:./data/demo;AUTO_SERVER=TRUE
+        username: sa
+        password: ""
+
+      destinations:
+        - type: local
+          name: primary
+          path: ./data/backups/db
+        # A second copy on different media is the difference between a backup and a
+        # single point of failure. Point this at a UNC share in production:
+        #   path: \\nas\backups\invoices
+        - type: local
+          name: secondary
+          path: ./data/backups-copy/db
+
+      schedule:
+        cron: "0 0 2 * * *"           # 02:00 every day
+        zone: Africa/Cairo            # pinned, so a server move does not shift it
+
+      compression: gzip
+
+      encryption:
+        # Read from the environment so the passphrase is never in the repository.
+        # Leave BACKUP_PASSWORD unset and the artifacts are simply written unencrypted.
+        password: ${BACKUP_PASSWORD:}
+
+      retention:
+        keep-daily: 7
+        keep-weekly: 4
+        keep-monthly: 6
+        minimum-kept: 3               # floor no other rule can undercut
+
+      verify-after-store: true        # re-download and compare checksums
+      max-retries: 2
+
+    # --- user files -------------------------------------------------------
+    user-documents:
+      description: "Documents uploaded by users"
+      source:
+        type: files
+        paths:
+          - ./data/documents
+        exclude:
+          - "**/*.tmp"
+          - "**/cache/**"
+        restore-to: ./data/restored-documents   # never overwrite the live folder
+
+      destinations:
+        - type: local
+          name: primary
+          path: ./data/backups/documents
+
+      schedule:
+        fixed-rate: 6h
+
+      compression: zip                # opens with a double-click on Windows
+
+      retention:
+        keep-last: 20
+
+    # --- a job kept switched off, to show the flag ------------------------
+    offsite-s3:
+      enabled: false
+      description: "Enable once S3 credentials are configured"
+      source:
+        type: h2
+        jdbc-url: jdbc:h2:file:./data/demo;AUTO_SERVER=TRUE
+        username: sa
+        password: ""
+      destinations:
+        - type: s3
+          bucket: ${S3_BUCKET:example-backups}
+          region: ${S3_REGION:eu-central-1}
+          key-prefix: invoices
+          storage-class: STANDARD_IA  # backups are written once and rarely read
+      schedule:
+        cron: "0 30 3 * * *"
+      retention:
+        keep-monthly: 12

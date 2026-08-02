@@ -21,6 +21,8 @@
         <module>backup-manager-storage-dropbox</module>
         <module>backup-manager-spring-boot-starter</module>
         <module>backup-manager-javafx</module>
+        <!-- Kept in the reactor so the samples cannot drift out of sync with the API. -->
+        <module>examples</module>
     </modules>
 
     <properties>

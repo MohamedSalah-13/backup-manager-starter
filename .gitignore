@@ -16,3 +16,7 @@ backups/
 *.trace.db
 catalog.json
 catalog.json.bak
+
+# Example applications write their runtime data here
+demo-data/
+examples/*/data/

@@ -118,6 +118,15 @@ public class BackupProperties {
     /** One entry under {@code backup.jobs}. */
     public static class JobProperties {
 
+        /**
+         * When false the job is not created at all — it cannot be scheduled or triggered,
+         * and none of the optional modules it names have to be on the classpath. That is
+         * what makes it safe to leave a fully written cloud job switched off until its
+         * credentials exist.
+         *
+         * <p>For a job that should exist but never fire on its own, leave it enabled and
+         * give it no schedule; it is then manual-only.
+         */
         private boolean enabled = true;
         private String description;
         private SourceProperties source = new SourceProperties();

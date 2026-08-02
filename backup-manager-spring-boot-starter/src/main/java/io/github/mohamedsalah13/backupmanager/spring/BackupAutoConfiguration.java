@@ -69,6 +69,13 @@ public class BackupAutoConfiguration {
                 log.info("Job '{}' is defined as a bean; the properties entry is ignored", name);
                 continue;
             }
+            if (!entry.getValue().isEnabled()) {
+                // Not built at all, deliberately. Constructing it would demand whatever
+                // optional module it names, so a job switched off pending credentials
+                // would still force the SDK onto the classpath — which defeats the flag.
+                log.info("Job '{}' is disabled; skipping it", name);
+                continue;
+            }
             builder.job(factory.create(name, entry.getValue()));
         }
 

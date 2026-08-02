@@ -203,13 +203,51 @@ class BackupAutoConfigurationTest {
     }
 
     @Test
-    void respectsTheDisabledFlagOnAJob() {
+    void doesNotCreateADisabledJobAtAll() {
         runner.withPropertyValues(fileJobProperties("docs"))
                 .withPropertyValues("backup.jobs.docs.enabled=false")
                 .run(context -> {
-                    BackupJob job = context.getBean(BackupManager.class).getJob("docs").orElseThrow();
-                    assertThat(job.isEnabled()).isFalse();
+                    BackupManager manager = context.getBean(BackupManager.class);
+                    assertThat(manager.getJob("docs")).isEmpty();
+                    assertThat(manager.getJobs()).isEmpty();
                 });
+    }
+
+    @Test
+    void aDisabledJobDoesNotRequireItsOptionalModule() {
+        // The reason a disabled job is skipped rather than built-and-flagged: a fully
+        // written cloud job must be leavable in the file until its credentials exist,
+        // without dragging the SDK onto the classpath.
+        runner.withPropertyValues(fileJobProperties("docs"))
+                .withPropertyValues(
+                        "backup.jobs.offsite.enabled=false",
+                        "backup.jobs.offsite.source.type=files",
+                        "backup.jobs.offsite.source.paths[0]="
+                                + sourceDir.toString().replace('\\', '/'),
+                        "backup.jobs.offsite.destinations[0].type=s3",
+                        "backup.jobs.offsite.destinations[0].bucket=not-configured-yet")
+                .withClassLoader(new org.springframework.boot.test.context.FilteredClassLoader(
+                        "io.github.mohamedsalah13.backupmanager.storage.s3"))
+                .run(context -> {
+                    assertThat(context).hasNotFailed();
+                    BackupManager manager = context.getBean(BackupManager.class);
+                    assertThat(manager.getJobs()).hasSize(1);
+                    assertThat(manager.getJob("docs")).isPresent();
+                });
+    }
+
+    @Test
+    void anEnabledJobWithNoScheduleIsManualOnly() {
+        // The other half of the contract: this job exists and can be triggered by hand,
+        // it simply never fires on its own.
+        runner.withPropertyValues(fileJobProperties("docs")).run(context -> {
+            BackupJob job = context.getBean(BackupManager.class).getJob("docs").orElseThrow();
+
+            assertThat(job.isEnabled()).isTrue();
+            assertThat(job.getSchedule().isAutomatic()).isFalse();
+            assertThat(context.getBean(BackupManager.class).backupNow("docs").getStatus())
+                    .isEqualTo(BackupStatus.SUCCESS);
+        });
     }
 
     @Configuration
