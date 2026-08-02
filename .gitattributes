@@ -1,0 +1,26 @@
+# Normalise every text file to LF in the repository and in the working tree, so the
+# checkout is identical on Windows, Linux and macOS. Without this, line endings depend on
+# each developer's core.autocrlf setting and produce diffs that touch whole files.
+* text=auto eol=lf
+
+# Windows-only scripts break if they are checked out with LF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Never transform these.
+*.jar binary
+*.zip binary
+*.gz binary
+*.bz2 binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary
+*.db binary
+*.p12 binary
+*.jks binary
+
+# Keep generated wrappers out of diffs and language statistics.
+mvnw text eol=lf
+mvnw.cmd text eol=crlf
+.mvn/wrapper/maven-wrapper.jar binary
