@@ -1,5 +1,7 @@
 # Backup Manager
 
+![Java](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4-6DB33F?logo=springboot&logoColor=white) ![JavaFX](https://img.shields.io/badge/JavaFX-21-1F6FB2) ![MySQL](https://img.shields.io/badge/MySQL-backup-4479A1?logo=mysql&logoColor=white) ![Storage](https://img.shields.io/badge/Storage-S3%20·%20Drive%20·%20Dropbox-FF9900)
+
 مكتبة نسخ احتياطي قابلة للإضافة كـ plugin لمشاريع Java و JavaFX و Spring Boot.
 
 تعمل النواة في أي تطبيق Java عادي بدون Spring، ومع Spring Boot تُضبط بالكامل من
